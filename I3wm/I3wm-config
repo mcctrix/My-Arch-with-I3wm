@@ -1,12 +1,49 @@
-# I3wm config by https://github.com/mcctrix/My-Arch-with-I3wm
-# Enjoy!
 # i3 config file (v4)
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
+# #---Basic Definitions---# #
 set $mod Mod4
+set $inner_gaps 15
+set $outer_gaps 15
+set $term --no-startup-id $TERMINAL
 
+
+# #---Gaps---# #
+for_window [class="^.*"] border pixel 2
+gaps inner $inner_gaps
+gaps outer $outer_gaps
+bindsym $mod+ctrl+a			gaps inner current plus 5
+bindsym $mod+ctrl+s		gaps inner current minus 5
+bindsym $mod+ctrl+f			gaps inner current set 0; gaps outer current set 0
+bindsym $mod+ctrl+d		gaps inner current set $inner_gaps; gaps outer current set $outer_gaps
+
+
+# #---For Trying---# #
+
+
+# #---Dropdown Windows---# #
+# General dropdown window traits. The order can matter.
+for_window [instance="dropdown_*"] floating enable
+for_window [instance="dropdown_*"] move scratchpad
+for_window [instance="dropdown_*"] sticky enable
+for_window [instance="dropdown_*"] scratchpad show
+for_window [instance="dropdown_tmuxdd"] resize set 625 450
+for_window [instance="dropdown_dropdowncalc"] resize set 800 300
+for_window [instance="dropdown_tmuxdd"] border pixel 3
+for_window [instance="dropdown_dropdowncalc"] border pixel 2
+for_window [instance="dropdown_*"] move position center
+
+for_window [class="Pinentry"] sticky enable
+for_window [class="sent"] border pixel 0px
+for_window [title="GIMP Startup"] move workspace $ws5
+for_window [class="Gimp"] move workspace $ws5
+for_window [window_role="GtkFileChooserDialog"] resize set 800 600
+for_window [window_role="GtkFileChooserDialog"] move position center
+for_window [title="Default - Wine desktop"] floating enable
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
+
+
 font pango:DejaVuSansMono Display 25
 
 # This font is widely installed, provides lots of unicode glyphs, right-to-left
@@ -59,13 +96,27 @@ bindsym $mod+b exec firefox
 bindsym $mod+n exec nemo
 
 #Take Screenshot
-bindsym $mod+p exec xfce4-screenshooter
+bindsym Print exec xfce4-screenshooter
 
 #Quickly backup I3wm config file
 bindsym $mod+ctrl+b exec cp ~/.config/i3/config ~/Data/Linux/Customs/I3wm/My_config
 
 #Open Music Player
 bindsym $mod+m exec rhythmbox
+
+
+# #---switch workspace---# #
+bindsym $mod+ctrl+z			workspace prev
+bindsym $mod+ctrl+x			workspace next
+
+# #---Media Keys---# #
+# Volume keys
+bindsym $mod+plus		exec --no-startup-id pulsemixer --change-volume +5 && pkill -RTMIN+10 i3blocks
+bindsym $mod+Shift+plus		exec --no-startup-id pulsemixer --change-volume +15 && pkill -RTMIN+10 i3blocks
+bindsym $mod+minus 		exec --no-startup-id pulsemixer --change-volume -5 && pkill -RTMIN+10 i3blocks
+bindsym $mod+Shift+minus	exec --no-startup-id pulsemixer --change-volume -15 && pkill -RTMIN+10 i3blocks
+bindsym $mod+ctrl+m		exec --no-startup-id pulsemixer --toggle-mute && pkill -RTMIN+10 i3blocks
+
 
 
 
@@ -76,7 +127,7 @@ bindsym $mod+ctrl+F4 exec systemctl poweroff
 bindsym $mod+ctrl+F5 exec systemctl reboot
 
 #Edit I3 config
-bindsym $mod+ctrl+c exec gedit ~/.config/i3/config
+bindsym $mod+ctrl+e exec gedit ~/.config/i3/config
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -138,8 +189,8 @@ bindsym $mod+a focus parent
 #bindsym $mod+d focus child
 
 # Define names for default workspaces for which we configure key bindings later on.
-set $ws1 "1:Browser "
-set $ws2 "2:Terminals "
+set $ws1 "1"
+set $ws2 "2"
 set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
@@ -177,12 +228,11 @@ bindsym $mod+Shift+0 move container to workspace number $ws10
 assign [class="firefox"] $ws1
 
 # lock
-bindsym $mod+Shift+x exec i3lock --color 475263
+bindsym $mod+ctrl+l exec i3lock --color 475263
 
 #Executing on startup
 exec_always feh --bg-scale ~/Wallpaper/Monaco.jpg
 exec compton -f
-exec xrdb .Xresources
 
 
 # reload the configuration file

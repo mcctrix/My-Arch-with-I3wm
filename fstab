@@ -1,0 +1,9 @@
+# Static information about the filesystems.
+# See fstab(5) for details.
+
+# <file system> <dir> <type> <options> <dump> <pass>
+# /dev/sda4
+UUID=1749d8ba-7543-4e63-97de-077518b4231d       /               ext4            rw,relatime     0 1
+
+UUID=6AF6A145F6A1127D        /home/ctrix/Data     ntfs-3g   defaults,nls=utf8,umask=000,dmask=027,fmask=137,uid=1000,gid=1000,windows_names 0 0
+UUID=102F065E102F065E        /home/ctrix/Movies     ntfs-3g   rw 0 0
